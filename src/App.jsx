@@ -11,12 +11,6 @@ function App () {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Body />}>
-            <Route
-              index
-              element={
-                <div className='m-10 text-3xl'>Welcome to DevTinder!</div>
-              }
-            />
             <Route path='/login' element={<Login />} />
             <Route path='/profile' element={<Profile />} />
           </Route>

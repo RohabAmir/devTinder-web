@@ -1,10 +1,14 @@
 import React from 'react'
+import { SiTinder } from 'react-icons/si'
 
 const Navbar = () => {
   return (
-    <div className='navbar bg-base-300 shadow-sm'>
-      <div className='flex-1'>
-        <a className='btn btn-ghost text-xl'>DevTinder</a>
+    <div className='navbar bg-base-300 shadow-lg'>
+      <div className='flex items-center gap-2 ml-4 flex-1'>
+        <a className='btn btn-ghost text-2xl'>
+          <SiTinder size={32} color='#ff6b6b' />
+          DevTinder
+        </a>
       </div>
       <div className='flex gap-2 mr-4'>
         <div className='dropdown dropdown-end'>
@@ -34,7 +38,7 @@ const Navbar = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>s
+              <a>Logout</a>
             </li>
           </ul>
         </div>
