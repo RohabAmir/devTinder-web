@@ -2,49 +2,30 @@ import React, { useEffect, useState } from 'react'
 import { SiTinder } from 'react-icons/si'
 import { IoClose } from 'react-icons/io5'
 import axios from 'axios'
+import { useToast } from './toastProvider'
 
 const Login = ({ isOpen, onClose }) => {
   const apiUrl = import.meta.env.VITE_API_URL
 
+  const { showToast } = useToast()
+
   const [emailId, setEmailId] = useState('')
   const [password, setPassword] = useState('')
-  const [toast, setToast] = useState({
-    visible: false,
-    type: 'success',
-    message: ''
-  })
-  const toastTimeoutRef = React.useRef(null)
-
-  const showToast = (type, message, duration = 3000) => {
-    if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current)
-      toastTimeoutRef.current = null
-    }
-    setToast({ visible: true, type, message })
-    toastTimeoutRef.current = setTimeout(() => {
-      setToast(prev => ({ ...prev, visible: false }))
-      toastTimeoutRef.current = null
-    }, duration)
-  }
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        `${apiUrl}/login`,
-        {
-          emailId,
-          password
-        },
-        { withCredentials: true }
-      )
+      const res = await axios.post(`${apiUrl}/login`, { emailId, password })
       if (res.status === 200) {
         const message = res.data?.message || 'Login successful'
         showToast('success', message)
         setTimeout(() => onClose(), 600)
       }
     } catch (error) {
-      console.error('Login failed:', error)
-      const errMsg = error?.response?.data?.error
+      const errMsg =
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        error?.message ||
+        'Login failed'
       showToast('error', errMsg)
     }
   }
@@ -57,12 +38,6 @@ const Login = ({ isOpen, onClose }) => {
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [isOpen, onClose])
-
-  useEffect(() => {
-    return () => {
-      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current)
-    }
-  }, [])
 
   if (!isOpen) return null
 
@@ -185,58 +160,9 @@ const Login = ({ isOpen, onClose }) => {
           </div>
         </div>
       </div>
-      {/* DaisyUI Toast container */}
-      <div
-        aria-live='polite'
-        className='pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-end sm:justify-end'
-      >
-        <div className='flex w-full items-center flex-col space-y-4 sm:items-end'>
-          {toast.visible && (
-            <div className='pointer-events-auto'>
-              <div className={`toast`}>
-                <div
-                  className={`alert shadow-lg ${
-                    toast.type === 'success' ? 'alert-success' : 'alert-error'
-                  }`}
-                >
-                  <div className='flex items-center gap-3'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      className={`stroke-current shrink-0 h-6 w-6 ${
-                        toast.type === 'success'
-                          ? 'text-green-600'
-                          : 'text-red-600'
-                      }`}
-                      fill='none'
-                      viewBox='0 0 24 24'
-                    >
-                      {toast.type === 'success' ? (
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth='2'
-                          d='M5 13l4 4L19 7'
-                        />
-                      ) : (
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth='2'
-                          d='M6 18L18 6M6 6l12 12'
-                        />
-                      )}
-                    </svg>
-                    <span>{toast.message}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   )
 }
 
 export default Login
-// ...existing code...
+
