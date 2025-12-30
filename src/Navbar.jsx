@@ -1,17 +1,19 @@
 import React from 'react'
 import { SiTinder } from 'react-icons/si'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+  const navigate = useNavigate()
   return (
     <div className='navbar bg-base-300 shadow-lg'>
       <div className='flex items-center gap-2 ml-4 flex-1'>
-        <a className='btn btn-ghost text-2xl'>
+        <a onClick={()=> navigate('/')} className='btn btn-ghost text-2xl'>
           <SiTinder size={32} color='#ff6b6b' />
           DevTinder
         </a>
       </div>
       <div className='flex gap-2 mr-4'>
-        <div className='dropdown dropdown-end'>
+        {/* <div className='dropdown dropdown-end'>
           <div
             tabIndex={0}
             role='button'
@@ -41,7 +43,14 @@ const Navbar = () => {
               <a>Logout</a>
             </li>
           </ul>
-        </div>
+
+        </div> */}
+        <button
+           onClick={() => { navigate('/login'), window.dispatchEvent(new CustomEvent('openLogin'))}}
+          className='btn cursor-pointer rounded-full px-10 py-2 text-lg font-semibold text-black border border-white bg-white hover:bg-transparent hover:text-white transition-colors'
+        >
+          Log in
+        </button>
       </div>
     </div>
   )
