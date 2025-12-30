@@ -3,30 +3,38 @@ import { SiTinder } from 'react-icons/si'
 import { IoClose } from 'react-icons/io5'
 import axios from 'axios'
 import { useToast } from './toastProvider'
+import { useDispatch } from 'react-redux'
+import { addUser } from './utils/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Login = ({ isOpen, onClose }) => {
   const apiUrl = import.meta.env.VITE_API_URL
 
-  const { showToast } = useToast()
+  const { showToast } = useToast();
+  const navigate = useNavigate();
+
 
   const [emailId, setEmailId] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
       const res = await axios.post(`${apiUrl}/login`, { emailId, password })
       if (res.status === 200) {
         const message = res.data?.message || 'Login successful'
-        showToast('success', message)
+        showToast('success', message);
         setTimeout(() => onClose(), 600)
       }
+      // -> You can dispatch user data to Redux store 
+      dispatch(addUser(res.data.user));
     } catch (error) {
       const errMsg =
         error?.response?.data?.error ||
         error?.response?.data?.message ||
         error?.message ||
         'Login failed'
-      showToast('error', errMsg)
+      showToast('error', errMsg);
     }
   }
 
