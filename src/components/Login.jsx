@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { SiTinder } from 'react-icons/si'
 import { IoClose } from 'react-icons/io5'
 import axios from 'axios'
-import { useToast } from './toastProvider'
+import { useToast } from '../utils/toastProvider'
 import { useDispatch } from 'react-redux'
-import { addUser } from './utils/userSlice'
+import { addUser } from '../utils/userSlice'
 import { useNavigate } from 'react-router-dom'
 
 const Login = ({ isOpen, onClose }) => {

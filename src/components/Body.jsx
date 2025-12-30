@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import bg from '../src/assets/images/tinderBgImage.webp'
+import bg from '../assets/images/tinderBgImage.webp'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import Login from './Login'
