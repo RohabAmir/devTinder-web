@@ -21,14 +21,12 @@ const Body = () => {
   const { showToast } = useToast()
 
   const fetchUser = async () => {
-    if (userData) return
+    if (userData) return;
     try {
       const res = await axios.get(`${apiUrl}/profile/view`, {
         withCredentials: true
       })
-      if (res.status === 200) {
-        dispatch(addUser(res.data.user))
-      }
+        dispatch(addUser(res.data.data))
     } catch (err) {
       if (err.response && err.response.status === 401) {
         showToast('error', err.response.data || 'Please log in to continue')
@@ -96,6 +94,7 @@ const Body = () => {
 
       <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </div>
+    
   )
 }
 
