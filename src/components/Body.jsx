@@ -4,12 +4,42 @@ import bg from '../assets/images/tinderBgImage.webp'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import Login from './Login'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
+import { addUser } from '../utils/userSlice'
+import { useToast } from '../utils/toastProvider'
 
 const Body = () => {
+  const apiUrl = import.meta.env.VITE_API_URL
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const userData = useSelector(state => state.user)
   const isIndex = location.pathname === '/'
-   const [showLogin, setShowLogin] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
+
+  const { showToast } = useToast()
+
+  const fetchUser = async () => {
+    if (userData) return
+    try {
+      const res = await axios.get(`${apiUrl}/profile/view`, {
+        withCredentials: true
+      })
+      if (res.status === 200) {
+        dispatch(addUser(res.data.user))
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        showToast('error', err.response.data || 'Please log in to continue')
+        navigate('/login')
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   useEffect(() => {
     const openHandler = () => setShowLogin(true)
@@ -19,11 +49,13 @@ const Body = () => {
 
   return (
     <div className='relative h-screen overflow-hidden flex flex-col'>
-      <div
-        className='absolute inset-0 bg-cover bg-center bg-no-repeat'
-        style={{ backgroundImage: `url(${bg})` }}
-        aria-hidden='true'
-      />
+      {!userData && (
+        <div
+          className='absolute inset-0 bg-cover bg-center bg-no-repeat'
+          style={{ backgroundImage: `url(${bg})` }}
+          aria-hidden='true'
+        />
+      )}
 
       {/* overlay */}
       <div className='absolute inset-0 bg-linear-to-b from-black/60 via-black/60 to-black/40' />
@@ -33,7 +65,7 @@ const Body = () => {
       </header>
 
       <main className='relative z-10 flex-1 flex items-center justify-center px-4'>
-        {isIndex ? (
+        {!userData ? (
           <section className='text-center text-white max-w-3xl'>
             <h1 className='text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4'>
               Welcome to DevTinder.
@@ -62,7 +94,7 @@ const Body = () => {
         <Footer />
       </footer>
 
-       <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
+      <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </div>
   )
 }

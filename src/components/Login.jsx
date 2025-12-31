@@ -10,31 +10,38 @@ import { useNavigate } from 'react-router-dom'
 const Login = ({ isOpen, onClose }) => {
   const apiUrl = import.meta.env.VITE_API_URL
 
-  const { showToast } = useToast();
-  const navigate = useNavigate();
-
+  const { showToast } = useToast()
+  const navigate = useNavigate()
 
   const [emailId, setEmailId] = useState('')
   const [password, setPassword] = useState('')
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(`${apiUrl}/login`, { emailId, password })
+      const res = await axios.post(
+        `${apiUrl}/login`,
+        {
+          emailId,
+          password
+        },
+        { withCredentials: true }
+      )
       if (res.status === 200) {
         const message = res.data?.message || 'Login successful'
-        showToast('success', message);
+        showToast('success', message)
         setTimeout(() => onClose(), 600)
       }
-      // -> You can dispatch user data to Redux store 
-      dispatch(addUser(res.data.user));
+      // -> You can dispatch user data to Redux store
+      dispatch(addUser(res.data.user))
+      navigate('/feed')
     } catch (error) {
       const errMsg =
         error?.response?.data?.error ||
         error?.response?.data?.message ||
         error?.message ||
         'Login failed'
-      showToast('error', errMsg);
+      showToast('error', errMsg)
     }
   }
 
@@ -143,7 +150,7 @@ const Login = ({ isOpen, onClose }) => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  placeholder='Enter a strong password'
+                  placeholder='Enter your password'
                   minlength='8'
                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
                   title='Must be more than 8 characters, including number, lowercase letter, uppercase letter'
@@ -173,4 +180,3 @@ const Login = ({ isOpen, onClose }) => {
 }
 
 export default Login
-
