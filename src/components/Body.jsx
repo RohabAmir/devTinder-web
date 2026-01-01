@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import bg from '../assets/images/tinderBgImage.webp'
 import Navbar from './Navbar'
 import Footer from './Footer'
@@ -11,11 +11,9 @@ import { useToast } from '../utils/toastProvider'
 
 const Body = () => {
   const apiUrl = import.meta.env.VITE_API_URL
-  const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const userData = useSelector(state => state.user)
-  const isIndex = location.pathname === '/'
   const [showLogin, setShowLogin] = useState(false)
 
   const { showToast } = useToast()

@@ -1,11 +1,33 @@
 import React from 'react'
 import { SiTinder } from 'react-icons/si'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { useToast } from '../utils/toastProvider'
+import axios from 'axios'
+import { removeUser } from '../utils/userSlice'
+
 
 const Navbar = () => {
   const user = useSelector(state => state.user)
   const navigate = useNavigate()
+  const apiUrl = import.meta.env.VITE_API_URL
+  const dispatch = useDispatch();
+  const { showToast } = useToast()
+
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true })
+      if (res.status === 200) {
+        showToast('success', 'Logged out successfully')
+        dispatch(removeUser())
+        return navigate('/login')
+      }
+    } catch (error) {
+      showToast('error', error.response.data.error || 'Something went wrong')
+      navigate('/login')
+    }
+  }
   return (
     <div className='navbar bg-base-300 shadow-lg'>
       <div className='flex items-center gap-2 ml-4 flex-1'>
@@ -30,20 +52,16 @@ const Navbar = () => {
               </div>
             </div>
             <ul
-              tabIndex='-1'
-              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow'
+              tabIndex={0}
+              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-1 w-52 p-2 shadow'
             >
               <li>
                 <Link to='/profile' className='justify-between'>
                   Profile
-                  <span className='badge'>New</span>
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
+                <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>
@@ -59,9 +77,9 @@ const Navbar = () => {
           </button>
         )}
       </div>
-      
+
     </div>
-    
+
   )
 }
 
