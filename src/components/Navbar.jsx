@@ -29,7 +29,7 @@ const Navbar = () => {
     }
   }
   return (
-    <div className='navbar bg-base-300 shadow-lg'>
+    <div className='navbar bg-base-100 shadow-lg'>
       <div className='flex items-center gap-2 ml-4 flex-1'>
         <Link to='/' className='btn btn-ghost text-2xl'>
           <SiTinder size={32} color='#ff6b6b' />

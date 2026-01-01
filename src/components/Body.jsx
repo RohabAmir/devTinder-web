@@ -15,26 +15,28 @@ const Body = () => {
   const dispatch = useDispatch()
   const userData = useSelector(state => state.user)
   const [showLogin, setShowLogin] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const { showToast } = useToast()
 
-  const fetchUser = async () => {
-    if (userData) return;
-    try {
-      const res = await axios.get(`${apiUrl}/profile/view`, {
-        withCredentials: true
-      })
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${apiUrl}/profile/view`, {
+          withCredentials: true
+        })
         dispatch(addUser(res.data.data))
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        showToast('error', err.response.data || 'Please log in to continue')
-        navigate('/login')
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          showToast('error', err.response.data || 'Please log in to continue')
+          navigate('/login')
+        }
+      } finally {
+        setIsLoading(false)
       }
     }
-  }
-
-  useEffect(() => {
     fetchUser()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -42,6 +44,14 @@ const Body = () => {
     window.addEventListener('openLogin', openHandler)
     return () => window.removeEventListener('openLogin', openHandler)
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className='relative h-screen overflow-hidden flex flex-col items-center justify-center'>
+        <span className="loading loading-dots loading-xl text-white"></span>
+      </div>
+    )
+  }
 
   return (
     <div className='relative h-screen overflow-hidden flex flex-col'>
@@ -53,7 +63,6 @@ const Body = () => {
         />
       )}
 
-      {/* overlay */}
       <div className='absolute inset-0 bg-linear-to-b from-black/60 via-black/60 to-black/40' />
 
       <header className='relative z-10'>
@@ -92,7 +101,7 @@ const Body = () => {
 
       <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </div>
-    
+
   )
 }
 
