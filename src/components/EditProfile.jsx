@@ -31,7 +31,8 @@ const EditProfile = ({ user }) => {
             }
         }
         catch (error) {
-            showToast('error', error.response.data.error || 'Something went wrong')
+            console.log(error);
+            showToast('error', error.response.data || 'Something went wrong')
         }
     }
 
