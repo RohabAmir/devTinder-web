@@ -63,7 +63,7 @@ const Connections = () => {
                         My Connections
                     </h1>
                     <p className='text-gray-400 text-lg'>
-                        {connection.length} {connection.length === 1 ? 'connection' : 'connections'}
+                    <span className='rounded-full bg-gray-600 text-white px-2 text-sm'>{connection.length}</span> {connection.length === 1 ? 'connection' : 'connections'}
                     </p>
                 </div>
 
@@ -75,7 +75,7 @@ const Connections = () => {
                         return (
                             <div
                                 key={_id}
-                                className='bg-base-300 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2'
+                                className='bg-base-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer transform hover:-translate-y-2'
                             >
                                 <div className='relative h-64 bg-linear-to-br from-pink-400 to-red-400 overflow-hidden'>
                                     
@@ -98,7 +98,7 @@ const Connections = () => {
                                     </div>
 
                                     <div className='text-center mb-4'>
-                                        <h3 className='text-xl font-bold text-white mb-1'>
+                                        <h3 className='text-xl line-clamp-1 font-bold text-white mb-1'>
                                             {fullName}
                                         </h3>
 

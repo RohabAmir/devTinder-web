@@ -40,7 +40,7 @@ const EditProfile = ({ user }) => {
         <>
             <div className='flex justify-center my-10'>
                 <div className='flex justify-center mx-10'>
-                    <div className='card bg-base-300 w-96 shadow-2xl'>
+                    <div className='card bg-base-200 w-96 shadow-2xl'>
                         <div className=''>
                             <h2 className='card-title rounded-t-lg p-2 bg-linear-to-r from-[#fd267a] via-[#ff6b6b] to-[#ff6036] justify-center text-2xl font-bold'>Edit Profile</h2>
                             <div className='card-body px-6'>
