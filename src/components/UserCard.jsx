@@ -1,9 +1,9 @@
 import React from 'react'
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, isEditable = false }) => {
     const { firstName, lastName, photoUrl, age, gender, about } = user || {};
     return (
-        <div className="card bg-base-300 w-96 shadow-sm">
+        <div className="card bg-base-300 w-96 shadow-sm h-full">
             <figure>
                 <img
                     src={photoUrl}
@@ -11,12 +11,16 @@ const UserCard = ({ user }) => {
             </figure>
             <div className="card-body">
                 <h2 className="card-title font-bold text-2xl ">{firstName + " " + lastName}</h2>
-                { age && gender && <p className='text-sm text-gray-500 '>{age} years old, {gender}</p>}
-                { about && <p className='text-sm text-white font-mono'>{about}</p>}
-                <div className="card-actions flex gap-2 justify-center my-4">
-                    <button className="btn btn-primary">Ignore</button>
-                    <button className="btn btn-secondary">Interested</button>
-                </div>
+                {age && gender && <p className='text-sm text-gray-500 '>{age} years old, {gender}</p>}
+                {about && <p className={`text-sm overflow-y-auto   ${isEditable ? 'mt-10 h-50' : 'mt-2 h-full'}  text-white font-mono`}>{about}</p>}
+                {
+                    !isEditable && (
+                        <div className="card-actions flex gap-2 justify-center my-4 mt-10">
+                            <button className="btn btn-primary">Ignore</button>
+                            <button className="btn btn-secondary">Interested</button>
+                        </div>
+                    )
+                }
             </div>
         </div>
     )

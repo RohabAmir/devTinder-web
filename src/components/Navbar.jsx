@@ -29,7 +29,7 @@ const Navbar = () => {
     }
   }
   return (
-    <div className='navbar bg-base-100 shadow-lg'>
+    <div className='navbar bg-base-100 shadow-lg h-full'>
       <div className='flex items-center gap-2 ml-4 flex-1'>
         <Link to='/' className='btn btn-ghost text-2xl'>
           <SiTinder size={32} color='#ff6b6b' />
@@ -53,13 +53,18 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-1 w-52 p-2 shadow'
+              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-1 w-52 p-2 shadow'
             >
               <li>
                 <Link to='/profile' className='justify-between'>
                   Profile
                 </Link>
               </li>
+              {/* <li>
+                <Link to='/connections' className='justify-between'>
+                  Connections
+                </Link>
+              </li> */}
               <li>
                 <a onClick={handleLogout}>Logout</a>
               </li>

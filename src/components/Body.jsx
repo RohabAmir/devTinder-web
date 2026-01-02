@@ -89,7 +89,7 @@ const Body = () => {
             </div>
           </section>
         ) : (
-          <div className='w-full'>
+          <div className='w-full h-full'>
             <Outlet />
           </div>
         )}
