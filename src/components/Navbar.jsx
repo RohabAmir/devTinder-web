@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from '../utils/toastProvider'
 import axios from 'axios'
 import { removeUser } from '../utils/userSlice'
-import { IoPersonOutline,  IoPersonCircleOutline } from 'react-icons/io5'
+import { IoPersonOutline,  IoPersonCircleOutline, IoHomeOutline } from 'react-icons/io5'
 import { IoLogOutOutline } from 'react-icons/io5'
 import { IoPeopleOutline } from 'react-icons/io5'
 
@@ -89,7 +89,7 @@ const Navbar = () => {
   return (
     <nav className='w-full bg-base-300 shadow-md h-16 flex items-center justify-between px-4 md:px-8 relative z-50'>
       <Link
-        to='/'
+        to='/feed'
         className='flex items-center gap-2 text-2xl font-bold hover:opacity-80 transition-opacity'
       >
         <SiTinder size={32} color='#ff6b6b' />
@@ -134,6 +134,16 @@ const Navbar = () => {
                     <span className='flex items-center gap-2'>
                       <IoPersonOutline size={20} />
                       Profile
+                    </span>
+                  </Link>
+                  <Link
+                    to='/feed'
+                    onClick={() => setIsDropdownOpen(false)}
+                    className='flex items-center justify-between px-4 py-3 text-neutral-content hover:bg-gray-50 hover:text-gray-700 transition-colors cursor-pointer'
+                  >
+                    <span className='flex items-center gap-2'>
+                      <IoHomeOutline size={20} />
+                      Feed
                     </span>
                   </Link>
                   <Link
