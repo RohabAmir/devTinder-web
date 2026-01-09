@@ -69,7 +69,7 @@ const Body = () => {
         <Navbar />
       </header>
 
-      <main className='relative z-10 flex-1 flex items-center justify-center px-4'>
+      <main className='relative z-10 flex-1 flex items-center justify-center px-4 pb-20 overflow-y-auto'>
         {!userData ? (
           <section className='text-center text-white max-w-3xl'>
             <h1 className='text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4'>

@@ -15,9 +15,8 @@ const Feed = () => {
   const [loading, setLoading] = useState(false)
 
   const getFeed = async () => {
-    setLoading(true)
-    if (feed) return;
     try {
+      setLoading(true)
       const res = await axios.get(`${apiUrl}/feed`, { withCredentials: true })
       dispatch(addFeed(res?.data?.data))
     } catch (error) {
@@ -30,6 +29,7 @@ const Feed = () => {
   
   useEffect(() => {
     getFeed()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (loading) {
@@ -59,7 +59,7 @@ const Feed = () => {
 
   return (
     feed && (
-      <div className='flex justify-center my-10'>
+      <div className='flex justify-center items-center w-full h-full py-8'>
         <UserCard user={feed[0]} />
       </div>
     )
