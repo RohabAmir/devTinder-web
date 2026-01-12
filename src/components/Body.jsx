@@ -4,6 +4,7 @@ import bg from '../assets/images/tinderBgImage.webp'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import Login from './Login'
+import Signup from './Signup'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { addUser } from '../utils/userSlice'
@@ -15,6 +16,7 @@ const Body = () => {
   const dispatch = useDispatch()
   const userData = useSelector(state => state.user)
   const [showLogin, setShowLogin] = useState(false)
+  const [showSignup, setShowSignup] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
   const { showToast } = useToast()
@@ -81,7 +83,7 @@ const Body = () => {
 
             <div className='flex flex-col sm:flex-row gap-4 justify-center'>
               <button
-                onClick={() => navigate('/profile')}
+                onClick={() => setShowSignup(true)}
                 className='cursor-pointer rounded-full px-8 py-3 text-lg font-semibold text-white shadow-lg transform hover:scale-105 transition-all duration-150 bg-linear-to-r from-[#fd267a] via-[#ff6b6b] to-[#ff6036]'
               >
                 Create an account
@@ -100,6 +102,7 @@ const Body = () => {
       </footer>
 
       <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />
+      <Signup isOpen={showSignup} onClose={() => setShowSignup(false)} />
     </div>
 
   )
